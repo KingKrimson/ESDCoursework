@@ -1,0 +1,12 @@
+<%-- 
+    Document   : footer
+    Created on : Nov 16, 2014, 3:32:20 PM
+    Author     : Andrew
+    Description:
+    This is the footer.
+--%>
+<%@ page pageEncoding="UTF-8" %>
+    <footer>
+        <hr />
+        <p>&copy; Andrew Brown, Andrew Heaford, and Christopher Steel.</p>
+    </footer>

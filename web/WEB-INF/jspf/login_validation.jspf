@@ -1,0 +1,7 @@
+<%-- check to see if session is valid. If not, redirect to login page. --%>
+<%
+    String valid = (String)session.getAttribute("validUser");
+    if (!valid.equals("true")) {
+        response.sendRedirect("login.jsp");
+    }
+%>
