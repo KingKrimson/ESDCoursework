@@ -13,7 +13,7 @@ import java.util.List;
  * @author Andrew
  */
 public class Patient {
-    private String id;
+    private int id;
     private String name;
     private List<Medicine> medicines;
     
@@ -21,11 +21,11 @@ public class Patient {
         medicines = new ArrayList<>();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

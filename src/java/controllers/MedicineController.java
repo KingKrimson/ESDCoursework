@@ -6,11 +6,18 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.DatabaseHandler;
+import models.Medicine;
+import models.Patient;
 
 /**
  *
@@ -32,32 +39,100 @@ public class MedicineController extends HttpServlet {
         String action = request.getParameter("desiredAction");
         
         switch (action) {
+            case "show_medicine":
+                showAllMedicines(request, response);
             case "add_medicine":
+                addMedicine(request, response);
             case "change_price":
+                changeMedicinePrice(request, response);
             case "remove_medicine":
+                removeMedicine(request, response);
             default:
-                forward(request, response);
+                showAllMedicines(request, response);
         }
     }
     
     private void showAllMedicines(HttpServletRequest request, HttpServletResponse response) {
-        getServletContext().getAttribute("dbh");
-        forward(request, response);
+        Connection conn = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(conn);
+        List medicines = new ArrayList<Medicine>();
+        try {
+            ResultSet res = dbh.executeSelect("SELECT * FROM patients");
+        
+            while (res.next()) {
+                int id = res.getInt("id");
+                String name = res.getString("name");
+                int cost = res.getInt("cost");
+                
+                Medicine m = new Medicine();
+                m.setId(id);
+                m.setName(name);
+                m.setCost(cost);
+                medicines.add(m);
+            }
+        } catch (SQLException e) {
+            request.setAttribute("isError", true);
+            request.setAttribute("errorMessage", e.toString());
+        }
+        
+        request.setAttribute("medicines", medicines);
+        forward(request, response, "url");
     }
     
     private void addMedicine(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        Connection conn = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(conn);
+        
+        String name = request.getParameter("name");
+        int cost = Integer.parseInt(request.getParameter("cost"));
+        
+        try {
+            dbh.executeUpdate("INSERT INTO medicines (name, cost) "
+                    + "VALUES (" + name + ", " + cost + ")");
+        } catch (SQLException e) {
+            request.setAttribute("isError", true);
+            request.setAttribute("errorMessage", e.toString());
+        }
+        
+        // forward to medicine page.
+        forward(request, response, "url");
     }
     
     private void changeMedicinePrice(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        Connection conn = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(conn);
+        
+        int id = Integer.parseInt(request.getParameter("id"));
+        int newCost = Integer.parseInt(request.getParameter("newCost"));
+        try {
+            dbh.executeUpdate("UPDATE medicines SET cost=" + newCost + 
+                    "WHERE id=" + id);
+        } catch(SQLException e) {
+            request.setAttribute("isError", true);
+            request.setAttribute("errorMessage", e.toString());
+        }
+        
+        // forward to medicine page
+        forward(request, response, "URL");
     }
     
     private void removeMedicine(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        Connection conn = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(conn);
+        
+        int doomedMedicineId = (int)request.getAttribute("cost");
+        try {
+            dbh.executeUpdate("DELETE FROM medicines WHERE id=" + doomedMedicineId);
+        } catch(SQLException e) {
+            request.setAttribute("isError", true);
+            request.setAttribute("errorMessage", e.toString());
+        }
+        
+        //forward to medicine page
+        forward(request, response, "URL");
     }
     
-    private void forward(HttpServletRequest request, HttpServletResponse response) {
+    private void forward(HttpServletRequest request, HttpServletResponse response, String url) {
         
     }
 

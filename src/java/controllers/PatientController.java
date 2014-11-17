@@ -6,11 +6,17 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.DatabaseHandler;
+import models.Patient;
 
 /**
  *
@@ -32,42 +38,68 @@ public class PatientController extends HttpServlet {
         String action = request.getParameter("desiredAction");
         
         switch (action) {
+            case "show_patients":
+                showAllPatients(request, response);
             case "add_patient":
+                addPatient(request, response);
             case "remove":
+                removePatient(request, response);
             case "invoice":
+                createInvoice(request, response);
             case "add_medicine":
+                addMedicine(request, response);
             case "pay":
+                payBill(request, response);
             default:
-                forward(request, response);
+                showAllPatients(request, response);
         }
     }
     
     private void showAllPatients(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        Connection conn = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(conn);
+        List patients = new ArrayList<Patient>();
+        try {
+            ResultSet res = dbh.executeSelect("SELECT * FROM patients");
+        
+            while (res.next()) {
+                int id = res.getInt("id");
+                String name = res.getString("name");
+                Patient p = new Patient();
+                p.setId(id);
+                p.setName(name);
+                patients.add(p);
+            }
+        } catch (SQLException e) {
+            request.setAttribute("isError", true);
+        }
+        
+        request.setAttribute("patients", patients);
+        forward(request, response, "url");
     }
     
     private void addPatient(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        forward(request, response, "url");
     }
     
     private void removePatient(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        forward(request, response, "url");
     }
     
     private void createInvoice(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        forward(request, response, "url");
     }
     
     private void addMedicine(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        forward(request, response, "url");
     }
     
     private void payBill(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response);
+        forward(request, response, "url");
     }
     
-    private void forward(HttpServletRequest request, HttpServletResponse response) {
-        
+    private void forward(HttpServletRequest request, HttpServletResponse response, String url) {
+  
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -10,17 +10,17 @@ package models;
  * @author Andrew
  */
 public class Medicine {
-    private String id;
+    private int id;
     private String name;
     private int cost;
     
     public Medicine() {}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
