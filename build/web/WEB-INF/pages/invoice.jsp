@@ -1,11 +1,10 @@
 <%-- 
-    Document   : medicines
-    Created on : Nov 16, 2014, 3:51:32 PM
+    Document   : invoice
+    Created on : Nov 17, 2014, 4:44:46 PM
     Author     : Andrew
     Description:
-    This shows a list of all the medicines on Dr. Fatal's list. From here, 
-    the user can add medicines, remove medicines, and change medicine prices.
-    
+    Given a patient, this page created an invoice for them , using the medicines
+    that they have bought, and their consultation fee (if any).
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,14 +12,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Medicines</title>
+        <title>Patients</title>
     </head>
     <body>
         <%@include file="jspf/header.jspf"%>
         <%@include file="jspf/login_validation.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
-            <h1>Dr Fatal's Approved <s>Poisons</s> Medicines</h1>
+            <h1>Invoice for ${patient.name}</h1>
             <%-- Body goes here --%>
         </div>
         <div class="clear"></div>

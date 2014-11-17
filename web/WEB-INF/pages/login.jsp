@@ -2,6 +2,9 @@
     Document   : login
     Created on : Nov 16, 2014, 4:33:36 PM
     Author     : Andrew
+    Description:
+    This is the login page. The user is redirected here if they're not logged in.
+    True to it's name, it allows the user to login.
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

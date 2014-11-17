@@ -6,6 +6,7 @@
 package models;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,9 +24,25 @@ public class DatabaseHandler {
     
     public int executeUpdate(String query) 
             throws SQLException {
-        Statement stmt = conn.createStatement();
+        Statement stmt = conn.createStatement();    
         int status = stmt.executeUpdate(query);
         return status;
+    }
+    
+    public int executeInsert(String query)
+            throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        int status = stmt.executeUpdate();
+        int key = 0;
+        
+        if (status != 0) {
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    key = generatedKeys.getInt(1);
+                }
+            }
+        }
+        return key;
     }
     
     public ResultSet executeSelect(String query) 

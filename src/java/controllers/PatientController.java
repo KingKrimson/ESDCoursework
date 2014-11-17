@@ -79,6 +79,29 @@ public class PatientController extends HttpServlet {
     }
     
     private void addPatient(HttpServletRequest request, HttpServletResponse response) {
+        //remember to add consultation fee...
+        Connection con = (Connection)getServletContext().getAttribute("connection");
+        DatabaseHandler dbh = new DatabaseHandler(con);
+        
+        String name = request.getParameter("name");
+        int consultationFee = Integer.parseInt(request.getParameter("fee"));
+        String[] medicineIds = request.getParameterValues("medicineIds");
+        
+        try {
+            int patientId = dbh.executeInsert("INSERT INTO patients (name) VALUES (" + name + ")");
+            
+            for (String medicineId : medicineIds) {
+                dbh.executeInsert("INSERT INTO patient_medicines (patient_id, medicine_id)"
+                        + "VALUES (" + patientId + ", " + medicineId + ")");
+            }
+            
+            dbh.executeInsert("INSERT INTO patient_consultations (patient_id, cost) "
+                    + "VALUES (" + patientId + ", " + consultationFee + ")");
+        } catch (SQLException e) {
+            request.setAttribute("isError", true);
+            request.setAttribute("errorMessage", e.toString());
+        }
+        
         forward(request, response, "url");
     }
     
@@ -87,6 +110,9 @@ public class PatientController extends HttpServlet {
     }
     
     private void createInvoice(HttpServletRequest request, HttpServletResponse response) {
+        //show consultation fee
+        
+        // forward to invoice page
         forward(request, response, "url");
     }
     

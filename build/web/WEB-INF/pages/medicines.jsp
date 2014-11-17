@@ -2,6 +2,10 @@
     Document   : medicines
     Created on : Nov 16, 2014, 3:51:32 PM
     Author     : Andrew
+    Description:
+    This shows a list of all the medicines on Dr. Fatal's list. From here, 
+    the user can add medicines, remove medicines, and change medicine prices.
+    
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

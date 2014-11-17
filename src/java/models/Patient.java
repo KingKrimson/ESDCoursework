@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Patient {
     private int id;
+    private int consultationFee;
     private String name;
     private List<Medicine> medicines;
     
@@ -27,6 +28,14 @@ public class Patient {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getConsultationFee() {
+        return consultationFee;
+    }
+
+    public void setConsultationFee(int consultationFee) {
+        this.consultationFee = consultationFee;
     }
 
     public String getName() {
