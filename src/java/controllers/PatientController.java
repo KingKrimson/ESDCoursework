@@ -40,6 +40,10 @@ public class PatientController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("desiredAction");
         
+        if (action == null){
+            showAllPatients(request, response);
+        }
+        
         switch (action) {
             case "show_patients":
                 showAllPatients(request, response);
@@ -79,7 +83,7 @@ public class PatientController extends HttpServlet {
         }
         
         request.setAttribute("patients", patients);
-        forward(request, response, "url");
+        forward(request, response, "/WEB-INF/pages/patients.jsp");
     }
     
     private void addPatient(HttpServletRequest request, HttpServletResponse response) 

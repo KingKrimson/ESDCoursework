@@ -7,6 +7,7 @@
     True to it's name, it allows the user to login.
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,13 +19,16 @@
     <%-- Redirect to homepage if session is valid? --%>
     
     <body>
-        <%@include file="jspf/header.jspf"%>
+        <%@include file="/WEB-INF/jspf/header.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
             <h1>Login</h1>
             <p>Please login to access the system.</p>
+            <c:if test="${error != null}">
+                Error: <c:out value="${error}"/>
+            </c:if>
             echo "<div class=login> <!-- start of login -->\n";
-                <form class='login' action='login_handler' method='post'>
+                <form class='login' action='LoginController' method='post'>
                     <table class='login'>
                         <tr>
                             <td><input type='text' id='Name' name='username' placeholder='Username' size='16'/></td>
@@ -37,6 +41,6 @@
 
         </div>
         <div class="clear"></div>
-        <%@include file="jspf/footer.jspf"%>
+        <%@include file="/WEB-INF/jspf/footer.jspf"%>
     </body>
 </html>

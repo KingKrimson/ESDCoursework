@@ -4,6 +4,7 @@
     Author     : Andrew
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,14 +13,16 @@
         <title>Patients</title>
     </head>
     <body>
-        <%@include file="jspf/header.jspf"%>
-        <%@include file="jspf/login_validation.jspf"%>
+        <%@include file="/WEB-INF/jspf/header.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
             <h1>Dr Fatal's Patients</h1>
-            <%-- Body goes here --%>
+            <c:forEach items="${patients}" var="patient">
+                Name: ${patient.name} <br>
+                Id: ${patient.id}<br>
+            </c:forEach>
         </div>
         <div class="clear"></div>
-        <%@include file="jspf/footer.jspf"%>
+        <%@include file="/WEB-INF/jspf/footer.jspf"%>
     </body>
 </html>

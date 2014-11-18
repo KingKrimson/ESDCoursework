@@ -39,6 +39,10 @@ public class MedicineController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("desiredAction");
         
+        if (action == null){
+            showAllMedicines(request, response);
+        }
+        
         switch (action) {
             case "show_medicine":
                 showAllMedicines(request, response);
@@ -59,7 +63,7 @@ public class MedicineController extends HttpServlet {
         DatabaseHandler dbh = new DatabaseHandler(conn);
         List medicines = new ArrayList<Medicine>();
         try {
-            ResultSet res = dbh.executeSelect("SELECT * FROM patients");
+            ResultSet res = dbh.executeSelect("SELECT * FROM medicine");
         
             while (res.next()) {
                 int id = res.getInt("id");
@@ -77,7 +81,7 @@ public class MedicineController extends HttpServlet {
         }
         
         request.setAttribute("medicines", medicines);
-        forward(request, response, "url");
+        forward(request, response, "/WEB-INF/pages/medicines.jsp");
     }
     
     private void addMedicine(HttpServletRequest request, HttpServletResponse response) 
