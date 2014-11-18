@@ -15,6 +15,7 @@ import java.util.List;
 public class Patient {
     private int id;
     private int consultationFee;
+    private int totalFee;
     private String name;
     private List<Medicine> medicines;
     
@@ -36,6 +37,14 @@ public class Patient {
 
     public void setConsultationFee(int consultationFee) {
         this.consultationFee = consultationFee;
+    }
+
+    public int getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(int totalOwed) {
+        this.totalFee = totalOwed;
     }
 
     public String getName() {

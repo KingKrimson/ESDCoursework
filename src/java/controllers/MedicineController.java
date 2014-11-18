@@ -11,13 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.DatabaseHandler;
 import models.Medicine;
-import models.Patient;
 
 /**
  *
@@ -52,7 +52,8 @@ public class MedicineController extends HttpServlet {
         }
     }
     
-    private void showAllMedicines(HttpServletRequest request, HttpServletResponse response) {
+    private void showAllMedicines(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         List medicines = new ArrayList<Medicine>();
@@ -79,7 +80,8 @@ public class MedicineController extends HttpServlet {
         forward(request, response, "url");
     }
     
-    private void addMedicine(HttpServletRequest request, HttpServletResponse response) {
+    private void addMedicine(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         
@@ -98,7 +100,8 @@ public class MedicineController extends HttpServlet {
         forward(request, response, "url");
     }
     
-    private void changeMedicinePrice(HttpServletRequest request, HttpServletResponse response) {
+    private void changeMedicinePrice(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         
@@ -116,7 +119,8 @@ public class MedicineController extends HttpServlet {
         forward(request, response, "URL");
     }
     
-    private void removeMedicine(HttpServletRequest request, HttpServletResponse response) {
+    private void removeMedicine(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         
@@ -132,8 +136,10 @@ public class MedicineController extends HttpServlet {
         forward(request, response, "URL");
     }
     
-    private void forward(HttpServletRequest request, HttpServletResponse response, String url) {
-        
+    private void forward(HttpServletRequest request, HttpServletResponse response, String url) 
+            throws ServletException, IOException {
+        RequestDispatcher dispatch = request.getRequestDispatcher(url);
+        dispatch.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
