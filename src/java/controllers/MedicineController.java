@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.DatabaseHandler;
+import models.ErrorBean;
 import models.Medicine;
 
 /**
@@ -72,8 +73,7 @@ public class MedicineController extends HttpServlet {
                 medicines.add(m);
             }
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e);
         }
         
         request.setAttribute("medicines", medicines);
@@ -92,8 +92,7 @@ public class MedicineController extends HttpServlet {
             dbh.executeUpdate("INSERT INTO medicines (name, cost) "
                     + "VALUES (" + name + ", " + cost + ")");
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e);
         }
         
         // forward to medicine page.
@@ -111,8 +110,7 @@ public class MedicineController extends HttpServlet {
             dbh.executeUpdate("UPDATE medicines SET cost=" + newCost + 
                     "WHERE id=" + id);
         } catch(SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e);
         }
         
         // forward to medicine page
@@ -128,12 +126,18 @@ public class MedicineController extends HttpServlet {
         try {
             dbh.executeUpdate("DELETE FROM medicines WHERE id=" + doomedMedicineId);
         } catch(SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e);
         }
         
         //forward to medicine page
         forward(request, response, "URL");
+    }
+    
+    private void createErrorBean(HttpServletRequest r, SQLException e) {
+        ErrorBean eb = new ErrorBean();
+        eb.setError(true);
+        eb.setMessage(e.toString());
+        r.setAttribute("errorBean", eb);
     }
     
     private void forward(HttpServletRequest request, HttpServletResponse response, String url) 

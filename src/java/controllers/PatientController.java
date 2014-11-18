@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.DatabaseHandler;
+import models.ErrorBean;
 import models.Medicine;
 import models.Patient;
 
@@ -74,7 +75,7 @@ public class PatientController extends HttpServlet {
                 patients.add(p);
             }
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
+            createErrorBean(request, e.getMessage());
         }
         
         request.setAttribute("patients", patients);
@@ -102,8 +103,7 @@ public class PatientController extends HttpServlet {
             dbh.executeInsert("INSERT INTO patient_consultations (patient_id, cost) "
                     + "VALUES (" + patientId + ", " + consultationFee + ")");
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e.getMessage());
         }
         
         forward(request, response, "url");
@@ -116,29 +116,25 @@ public class PatientController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         
+        Patient p = new Patient();
+        p.setId(id);
+        p.setName(name);
+        
         try {
-            ResultSet medicineRes = dbh.executeSelect(
-                    "SELECT medicine.id, medicine.name, medicine.cost "
-                    + "FROM medicine JOIN patient_medicines ON medicine.id = patient_medicines.medicine_id "
-                    + "JOIN patients ON patient_medicines.patient_id = patient.id "
-                    + "WHERE patient.id = " + id);
-            ResultSet consultationRes = dbh.executeSelect(
-                    "SELECT patient_consultations.cost "
-                    + "FROM patient_consultations"
-                    + "JOIN patients ON patient_consultations.id = patients.id "
-                    + "WHERE patient.id = " + id);
+            p.retrieveMedicines(dbh);
+            p.retrieveConsultationFee(dbh);
+            int totalFee = p.calculateTotalFee();
             
             // if there are no results, then the patients bill is clear.
-            if (!medicineRes.isBeforeFirst() && !consultationRes.isBeforeFirst()) {    
+            if (totalFee >= 0) {    
                 dbh.executeUpdate("DELETE FROM patients WHERE id=" + id);
             } else {
-                request.setAttribute("isError", true);
-                request.setAttribute("errorMessage", "Cannot delete " + name + ": they still have to pay their bill!");
+                createErrorBean(request, "Couldn't delete " + p.getName() 
+                        + ": They still have to pay their bill of £" + totalFee + "!");
             }
             
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e.getMessage());
         }
         
         // forward to patients
@@ -156,47 +152,18 @@ public class PatientController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             ResultSet patientRes = dbh.executeSelect("SELECT * from patients WHERE id=" + id);
-            ResultSet medicineRes = dbh.executeSelect(
-                    "SELECT medicine.id, medicine.name, medicine.cost "
-                    + "FROM medicine JOIN patient_medicines ON medicine.id = patient_medicines.medicine_id "
-                    + "JOIN patients ON patient_medicines.patient_id = patient.id "
-                    + "WHERE patient.id = " + id);
-            ResultSet consultationRes = dbh.executeSelect(
-                    "SELECT patient_consultations.cost "
-                    + "FROM patient_consultations"
-                    + "JOIN patients ON patient_consultations.id = patients.id "
-                    + "WHERE patient.id = " + id);
             
             while (patientRes.next()) {
                 p.setId(patientRes.getInt("id"));
                 p.setName(patientRes.getString("name"));
             }
             
-            while (consultationRes.next()) {
-                int fee = consultationRes.getInt("cost");
-                p.setConsultationFee(fee);
-                totalFee += fee;
-            }
-            
-            while (medicineRes.next()) {
-                int mId = medicineRes.getInt("id");
-                int cost = medicineRes.getInt("cost");
-                String name = medicineRes.getString("name");
-                
-                Medicine m = new Medicine();
-                m.setId(mId);
-                m.setName(name);
-                m.setCost(cost);
-                
-                medicines.add(m);
-                totalFee += cost;
-            }
-            
-            p.setTotalFee(totalFee);
+            p.retrieveMedicines(dbh);
+            p.retrieveConsultationFee(dbh);
+            p.calculateTotalFee();
             request.setAttribute("patient", p);
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e.getMessage());
             // forward to patient page
             forward(request, response, "url");
         }
@@ -218,8 +185,7 @@ public class PatientController extends HttpServlet {
                         + "VALUES (" + id +", " + mId + ")");
             }
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e.getMessage());
         }
         
         createInvoice(request, response);
@@ -235,12 +201,18 @@ public class PatientController extends HttpServlet {
             dbh.executeUpdate("DELETE FROM patient_medicines WHERE patient_id=" + id);
             dbh.executeUpdate("DELETE FROM patient_consultations WHERE patient_id=" + id);
         } catch (SQLException e) {
-            request.setAttribute("isError", true);
-            request.setAttribute("errorMessage", e.toString());
+            createErrorBean(request, e.getMessage());
         }
         
         // forward to invoice page
         createInvoice(request, response);
+    }
+    
+    private void createErrorBean(HttpServletRequest r, String m) {
+        ErrorBean eb = new ErrorBean();
+        eb.setError(true);
+        eb.setMessage(m);
+        r.setAttribute("errorBean", eb);
     }
     
     private void forward(HttpServletRequest request, HttpServletResponse response, String url) 
