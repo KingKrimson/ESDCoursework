@@ -4,6 +4,20 @@
         <param-name>datasource</param-name>
         <param-value id="datasource">jdbc:mysql://localhost:3306/esd</param-value>
     </context-param>
+    <filter>
+        <filter-name>LoggedInFilter</filter-name>
+        <filter-class>filters.LoggedInFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedInFilter</filter-name>
+        <servlet-name>PatientController</servlet-name>
+        <servlet-name>MedicineController</servlet-name>
+        <servlet-name>HomeController</servlet-name>
+    </filter-mapping>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>DatabaseListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>PatientController</servlet-name>
         <servlet-class>controllers.PatientController</servlet-class>
@@ -16,6 +30,10 @@
         <servlet-name>LoginController</servlet-name>
         <servlet-class>controllers.LoginController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeController</servlet-name>
+        <servlet-class>controllers.HomeController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
         <url-pattern>/PatientController</url-pattern>
@@ -27,6 +45,10 @@
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeController</servlet-name>
+        <url-pattern>/HomeController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

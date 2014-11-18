@@ -15,13 +15,13 @@
     License: http://creativecommons.org/licenses/by/2.0/
 --%>
 <%@ page pageEncoding="UTF-8" %>
-<img src="../images/logo.png">
+<img src="images/logo.png">
 </header>
 <div class="mainnav"> <%-- start of Navbar --%>
     <ul id="list-nav">
         <%-- link to servlets, rather than the index --%>
-        <li><a href="../pages/index.jsp">Home</a></li>
-        <li><a href="../pages/patients.jsp">Patient Operations</a></li>
-        <li><a href="../pages/medicines.jsp">Medicine Operations</a></li> 
+        <li><a href="HomeController">Home</a></li>
+        <li><a href="PatientController">Patient Operations</a></li>
+        <li><a href="MedicineController">Medicine Operations</a></li> 
     </ul>
 </div> <!-- End of Navbar -->

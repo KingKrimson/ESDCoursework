@@ -16,8 +16,7 @@
         <title>Fatal System - Home</title>
     </head>
     <body>
-        <%@include file="jspf/header.jspf"%>
-        <%@include file="jspf/login_validation.jspf"%>
+        <%@include file="/WEB-INF/jspf/header.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
             <h1>Fatal System Home</h1>
@@ -29,7 +28,7 @@
             </p>
         </div>    
         <div class="clear"></div>
-        <%@ include file="jspf/footer.jspf"%>
+        <%@ include file="/WEB-INF/jspf/footer.jspf"%>
     </body>
 
 
