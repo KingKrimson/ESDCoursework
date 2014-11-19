@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2014 at 11:04 PM
+-- Generation Time: Nov 19, 2014 at 04:47 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -71,9 +71,10 @@ INSERT INTO `patients` (`id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `patient_consultations` (
+`id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
   `cost` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -82,9 +83,10 @@ CREATE TABLE IF NOT EXISTS `patient_consultations` (
 --
 
 CREATE TABLE IF NOT EXISTS `patient_medicines` (
+`id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
   `medicine_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Indexes for dumped tables
@@ -106,13 +108,13 @@ ALTER TABLE `patients`
 -- Indexes for table `patient_consultations`
 --
 ALTER TABLE `patient_consultations`
- ADD PRIMARY KEY (`patient_id`), ADD KEY `patient_id` (`patient_id`), ADD KEY `cost` (`cost`), ADD KEY `cost_2` (`cost`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `patient_medicines`
 --
 ALTER TABLE `patient_medicines`
- ADD KEY `patient_id` (`patient_id`), ADD KEY `medicine_id` (`medicine_id`);
+ ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -129,22 +131,15 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 ALTER TABLE `patients`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
--- Constraints for dumped tables
---
-
---
--- Constraints for table `patient_consultations`
+-- AUTO_INCREMENT for table `patient_consultations`
 --
 ALTER TABLE `patient_consultations`
-ADD CONSTRAINT `patient_consultations_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`);
-
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Constraints for table `patient_medicines`
+-- AUTO_INCREMENT for table `patient_medicines`
 --
 ALTER TABLE `patient_medicines`
-ADD CONSTRAINT `patient_medicines_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`),
-ADD CONSTRAINT `patient_medicines_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`);
-
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
