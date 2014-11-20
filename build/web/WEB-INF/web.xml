@@ -9,14 +9,16 @@
         <filter-class>filters.LoggedInFilter</filter-class>
     </filter>
     <filter-mapping>
+        <!-- run loggedInFilter before any of the servlets. -->
         <filter-name>LoggedInFilter</filter-name>
         <servlet-name>PatientController</servlet-name>
         <servlet-name>MedicineController</servlet-name>
         <servlet-name>HomeController</servlet-name>
+        <servlet-name>WebServiceController</servlet-name>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>DatabaseListener</listener-class>
+        <listener-class>listeners.DatabaseListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>PatientController</servlet-name>
@@ -34,6 +36,10 @@
         <servlet-name>HomeController</servlet-name>
         <servlet-class>controllers.HomeController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WebServicesController</servlet-name>
+        <servlet-class>controllers.WebServicesController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PatientController</servlet-name>
         <url-pattern>/PatientController</url-pattern>
@@ -50,9 +56,14 @@
         <servlet-name>HomeController</servlet-name>
         <url-pattern>/HomeController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WebServicesController</servlet-name>
+        <url-pattern>/WebServicesController</url-pattern>
+    </servlet-mapping>
     <session-config>
+        <!-- Session timeout is set for 20 minutes. Plenty of time to browse. -->
         <session-timeout>
-            30
+            20
         </session-timeout>
     </session-config>
 </web-app>

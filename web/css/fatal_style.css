@@ -34,7 +34,7 @@ div#pagecontent {
     border: 3px solid black;
     border-radius: 15px; /*Netbeans complains about this element, but it's valid CSS3.*/
     padding: 0px 50px 0px;
-    width: 500px;
+    width: 750px;
 
 }
 
@@ -47,8 +47,17 @@ div.clear {
     clear: both;
 }
 
-table td {
-    text-align:center;
+
+/*******************************************************************************
+Table stuff.
+*******************************************************************************/
+table {
+    text-align:left;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
 }
 
 /*******************************************************************************
@@ -73,7 +82,7 @@ div.login{
 }
 
 table.login{
-    float:right;
+    float:left;
     margin-top: 5px;
     margin-bottom: 0px;
     margin-left: 0px;

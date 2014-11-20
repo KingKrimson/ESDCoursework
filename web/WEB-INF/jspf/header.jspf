@@ -22,6 +22,7 @@
         <%-- link to servlets, rather than the index --%>
         <li><a href="HomeController">Home</a></li>
         <li><a href="PatientController">Patient Operations</a></li>
-        <li><a href="MedicineController">Medicine Operations</a></li> 
+        <li><a href="MedicineController">Medicine Operations</a></li>
+        <li><a href="WebServicesController">Web Services</a></li> 
     </ul>
 </div> <!-- End of Navbar -->

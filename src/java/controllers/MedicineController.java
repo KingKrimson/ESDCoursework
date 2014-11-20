@@ -7,7 +7,6 @@ package controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +15,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.MedicineHandler;
 import models.DatabaseHandler;
 import models.ErrorBean;
 import models.Medicine;
 
 /**
- *
+ * All medicine specific requests are handed to this Servlet. It can show all the
+ * medicines, add medicines to the list, remove medicines from the list, and
+ * change medicine prices.
+ * 
  * @author Andrew
  */
 public class MedicineController extends HttpServlet {
@@ -37,12 +40,15 @@ public class MedicineController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("desiredAction");
+        // This parameter tells the servlet what to do.
+        String action = request.getParameter("desired_action");
         
+        // If there's no action, we just want to see all of the medicines.
         if (action == null){
             showAllMedicines(request, response);
         }
         
+        // Determine what action to take.
         switch (action) {
             case "show_medicine":
                 showAllMedicines(request, response);
@@ -57,33 +63,36 @@ public class MedicineController extends HttpServlet {
         }
     }
     
+    /*
+     * Retrieves the medicines from the database, put them into a list, and
+     * pass them onto the jsp.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
     private void showAllMedicines(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         List medicines = new ArrayList<Medicine>();
         try {
-            ResultSet res = dbh.executeSelect("SELECT * FROM medicine");
-        
-            while (res.next()) {
-                int id = res.getInt("id");
-                String name = res.getString("name");
-                int cost = res.getInt("cost");
-                
-                Medicine m = new Medicine();
-                m.setId(id);
-                m.setName(name);
-                m.setCost(cost);
-                medicines.add(m);
-            }
+            medicines = MedicineHandler.retrieveAllMedicines(dbh);
         } catch (SQLException e) {
-            createErrorBean(request, e);
+            createErrorBean(request, e.toString());
         }
         
+        // Allow the jsp to access the list.
         request.setAttribute("medicines", medicines);
+        // Forward to the jsp.
         forward(request, response, "/WEB-INF/pages/medicines.jsp");
     }
     
+    /*
+     * Adds a medicine to the database.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
     private void addMedicine(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
@@ -93,16 +102,21 @@ public class MedicineController extends HttpServlet {
         int cost = Integer.parseInt(request.getParameter("cost"));
         
         try {
-            dbh.executeUpdate("INSERT INTO medicines (name, cost) "
-                    + "VALUES (" + name + ", " + cost + ")");
+            MedicineHandler.addMedicine(dbh, name, cost);
         } catch (SQLException e) {
-            createErrorBean(request, e);
+            createErrorBean(request, e.toString());
         }
         
         // forward to medicine page.
-        forward(request, response, "url");
+        showAllMedicines(request, response);
     }
     
+    /*
+     * Changes a medicine's price in the database.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
     private void changeMedicinePrice(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
@@ -111,16 +125,22 @@ public class MedicineController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         int newCost = Integer.parseInt(request.getParameter("newCost"));
         try {
-            dbh.executeUpdate("UPDATE medicines SET cost=" + newCost + 
-                    "WHERE id=" + id);
+            MedicineHandler.changeMedicinePrice(dbh, id, newCost);
         } catch(SQLException e) {
-            createErrorBean(request, e);
+            createErrorBean(request, e.toString());
         }
         
         // forward to medicine page
-        forward(request, response, "URL");
+        showAllMedicines(request, response);
     }
     
+    /*
+     * Removes a medicine from the database. Unlikely to be used in the current
+     * system.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
     private void removeMedicine(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
@@ -128,22 +148,24 @@ public class MedicineController extends HttpServlet {
         
         int doomedMedicineId = (int)request.getAttribute("cost");
         try {
-            dbh.executeUpdate("DELETE FROM medicines WHERE id=" + doomedMedicineId);
+            MedicineHandler.removeMedicine(dbh, doomedMedicineId);
         } catch(SQLException e) {
-            createErrorBean(request, e);
+            createErrorBean(request, e.toString());
         }
         
         //forward to medicine page
-        forward(request, response, "URL");
+        showAllMedicines(request, response);
     }
     
-    private void createErrorBean(HttpServletRequest r, SQLException e) {
+    // Creates an ErrorBean, so the jsp can display any errors.
+    private void createErrorBean(HttpServletRequest r, String m) {
         ErrorBean eb = new ErrorBean();
         eb.setError(true);
-        eb.setMessage(e.toString());
+        eb.setMessage(m);
         r.setAttribute("errorBean", eb);
     }
     
+    // Wrapper for the forward functionality.
     private void forward(HttpServletRequest request, HttpServletResponse response, String url) 
             throws ServletException, IOException {
         RequestDispatcher dispatch = request.getRequestDispatcher(url);

@@ -13,16 +13,32 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
- *
+ * DatabaseHandler deals with the database. It can do Selects, Updates, Inserts,
+ * and Deletes. It's much nicer doing database stuff in the models in rather than 
+ * right in the controller. That way, if we need to port the system to a GUI
+ * (or another view type), we have less work to do.
+ * 
  * @author Andrew
  */
 public class DatabaseHandler {
     Connection conn;
     
+    /**
+     * Create a database handle with the given Connection.
+     * 
+     * @param conn
+     */
     public DatabaseHandler(Connection conn) {
         this.conn = conn;
     }
     
+    /**
+     * Perform an update. The query parameter is an SQL update or delete command.
+     * 
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public int executeUpdate(String query) 
             throws SQLException {
         Statement stmt = conn.createStatement();    
@@ -30,17 +46,38 @@ public class DatabaseHandler {
         return status;
     }
     
-    public int prepareAndExecuteUpdate(String query, List<String> values)
+    /**
+     * Same as executeUpdate, except a prepared statement is used instead.
+     * In this case, wildcards ('?') are used in the query string instead
+     * of the actual values ('DELETE FROM patients WHERE id=?'). The values
+     * are passed to the function as a list of strings.
+     * 
+     * @param query
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    public int prepareAndExecuteUpdate(String query, String[] values)
             throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("query");
-        for (int i = 0; i < values.size(); i++) {
-            String value = values.get(i);
-            stmt.setString(i, value);
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            stmt.setString(i+1, value);
         }
         int status = stmt.executeUpdate(query);
         return status;
     }
     
+    /**
+     * Perform an insert. The query parameter is an SQL insert command.
+     * 
+     * returns the auto_generated id of the item that has been inserted, so
+     * it can be used in other queries. If nothing is inserted, returns 0.
+     *
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public int executeInsert(String query)
             throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -57,12 +94,23 @@ public class DatabaseHandler {
         return key;
     }
     
-    public int prepareAndExecuteInsert(String query, List<String> values) 
+    /**
+     * Same as executeInsert, except a prepared statement is used instead.
+     * In this case, wildcards ('?') are used in the query string instead
+     * of the actual values ('INSERT INTO patients ?,?'). The values
+     * are passed to the function as a list of strings.
+     * 
+     * @param query
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    public int prepareAndExecuteInsert(String query, String[] values) 
             throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        for (int i = 0; i < values.size(); i++) {
-            String value = values.get(i);
-            stmt.setString(i, value);
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            stmt.setString(i+1, value);
         }
         int status = stmt.executeUpdate();
         int key = 0;
@@ -77,6 +125,15 @@ public class DatabaseHandler {
         return key;
     }
     
+    /**
+     * Perform a select statement. The query parameter is an SQL select command.
+     * 
+     * returns a ResultSet that the caller can query for more information.
+     * 
+     * @param query
+     * @return
+     * @throws SQLException
+     */
     public ResultSet executeSelect(String query) 
         throws SQLException {
         Statement stmt = conn.createStatement();
@@ -85,12 +142,23 @@ public class DatabaseHandler {
         return res;
     }
     
-    public ResultSet prepareAndExecuteSelect(String query, List<String> values) 
+    /**
+     * Same as executeSelect, except a prepared statement is used instead.
+     * In this case, wildcards ('?') are used in the query string instead
+     * of the actual values ('SELECT * FROM patients WHERE id=?'). The values
+     * are passed to the function as a list of strings.
+     * 
+     * @param query
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet prepareAndExecuteSelect(String query, String[] values) 
             throws SQLException {
         PreparedStatement stmt = conn.prepareStatement(query);
-        for (int i = 0; i < values.size(); i++) {
-            String value = values.get(i);
-            stmt.setString(i, value);
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            stmt.setString(i+1, value);
         }
         stmt.execute();
         ResultSet res = stmt.getResultSet();

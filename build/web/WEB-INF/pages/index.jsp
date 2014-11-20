@@ -19,6 +19,7 @@
         <%@include file="/WEB-INF/jspf/header.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
+            <%@include file="/WEB-INF/jspf/show_error_bean.jspf"%>
             <h1>Fatal System Home</h1>
             <p>Welcome Doctor Fatal.</p>
             <p>

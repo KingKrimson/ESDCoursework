@@ -13,7 +13,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Medicines</title>
+        <link rel="stylesheet" type="text/css" href="css/fatal_style.css">
+        <title>Login</title>
     </head>
     
     <%-- Redirect to homepage if session is valid? --%>
@@ -22,12 +23,11 @@
         <%@include file="/WEB-INF/jspf/header.jspf"%>
         <div class="clear"></div>
         <div id="pagecontent">
+            <%@include file="/WEB-INF/jspf/show_error_bean.jspf"%>
             <h1>Login</h1>
             <p>Please login to access the system.</p>
-            <c:if test="${error != null}">
-                Error: <c:out value="${error}"/>
-            </c:if>
-            echo "<div class=login> <!-- start of login -->\n";
+            <%@include file="/WEB-INF/jspf/show_error_bean.jspf"%>
+            <div class=login> <!-- start of login -->
                 <form class='login' action='LoginController' method='post'>
                     <table class='login'>
                         <tr>

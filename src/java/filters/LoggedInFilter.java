@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Checks to see if the user is logged in. If they're not, redirect to the login
+ * page.
+ * 
  * @author Andrew
  */
 public class LoggedInFilter implements Filter {

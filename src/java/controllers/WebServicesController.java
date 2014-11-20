@@ -6,27 +6,22 @@
 package controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import models.ErrorBean;
 
 /**
- * LoginServert deals with user logins.
+ * Deals with web services.
  * 
  * @author Andrew
  */
-public class LoginController extends HttpServlet {
+public class WebServicesController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
-     * Checks to see if the username and password are valid. If they are, logs
-     * them in with a session and redirects to the HomeController. If they're not, 
-     * makes an ErrorBean, and forwards them back to the login page.
      *
      * @param request servlet request
      * @param response servlet response
@@ -35,25 +30,8 @@ public class LoginController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        if ("doctor".equals(username) && "doctor".equals(password)) {
-            // Create a session, indicating that the user is logged in.
-            // Session length is set to 20 minutes in the DD.
-            HttpSession session = request.getSession();
-            session.setAttribute("validUser", "true");
-            response.sendRedirect("HomeController");
-        } else {
-            // if the user hasn't entered anything (e.g. they've just entered the site)
-            // don't make the ErrorBean.
-            if (!(username == null) && !(password == null)) {
-                ErrorBean errorBean = new ErrorBean(true, "Password is wrong!");
-                request.setAttribute("errorBean", errorBean);
-            }
-            
-            getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
-        }
+        // Does nothing so far...
+        getServletContext().getRequestDispatcher("/WEB-INF/pages/web_services.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

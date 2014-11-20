@@ -1,3 +1,5 @@
+package listeners;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,9 +14,12 @@ import javax.servlet.ServletContextListener;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 /**
  * Web application lifecycle listener.
  *
+ * Grabs the datasource string from the DD, and creates a database connection.
+ * 
  * @author Andrew
  */
 public class DatabaseListener implements ServletContextListener {

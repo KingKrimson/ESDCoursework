@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * Forwards to the homepage, as the homepage is under WEB-INF.
+ * 
  * @author Andrew
  */
 public class HomeController extends HttpServlet {
@@ -21,6 +22,8 @@ public class HomeController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
+     * 
+     * Simply forwards to the homepage.
      *
      * @param request servlet request
      * @param response servlet response
