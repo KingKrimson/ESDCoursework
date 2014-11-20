@@ -52,12 +52,16 @@ public class MedicineController extends HttpServlet {
         switch (action) {
             case "show_medicine":
                 showAllMedicines(request, response);
+                break;
             case "add_medicine":
                 addMedicine(request, response);
+                break;
             case "change_price":
                 changeMedicinePrice(request, response);
+                break;
             case "remove_medicine":
                 removeMedicine(request, response);
+                break;
             default:
                 showAllMedicines(request, response);
         }
@@ -146,7 +150,7 @@ public class MedicineController extends HttpServlet {
         Connection conn = (Connection)getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(conn);
         
-        int doomedMedicineId = (int)request.getAttribute("cost");
+        int doomedMedicineId = (int)request.getAttribute("id");
         try {
             MedicineHandler.removeMedicine(dbh, doomedMedicineId);
         } catch(SQLException e) {

@@ -129,9 +129,9 @@ public class PatientHandler {
         p.retrieveConsultationFee(dbh);
         int totalFee = p.calculateTotalFee();
 
-        // if totalFee is equal to zero, then the patients bill is clear,
+        // if totalFee is less than (somehow?) or equal to zero, then the patients bill is clear,
         // and we can remove them.
-        if (totalFee >= 0) {
+        if (totalFee <= 0) {
             String qId = quotify(id.toString());
             dbh.executeUpdate("DELETE FROM patients WHERE id=" + qId);
             p = null;

@@ -177,9 +177,9 @@ public class Patient {
         while (medicineRes.next()) {
             int mId = medicineRes.getInt("id");
             int cost = medicineRes.getInt("cost");
-            String name = medicineRes.getString("name");
+            String mName = medicineRes.getString("name");
 
-            Medicine m = new Medicine(mId, name, cost);
+            Medicine m = new Medicine(mId, mName, cost);
             medicines.add(m);
         }
         return medicines;
@@ -197,13 +197,13 @@ public class Patient {
             throws SQLException {
         String qId = quotify(String.valueOf(id));
         String query = "SELECT patient_consultations.cost "
-                + "FROM patient_consultations"
-                + "JOIN patients ON patient_consultations.id = patients.id "
+                + "FROM patient_consultations "
+                + "JOIN patients ON patient_consultations.patient_id = patients.id "
                 + "WHERE patients.id=" + qId;
         ResultSet consultationRes = dbh.executeSelect(query);
 
         // This is a while, but the patient will only have one consultation fee. 
-        // This will only execute once. 
+        // This will only execute once or not at all.
         while (consultationRes.next()) {
             int fee = consultationRes.getInt("cost");
             this.consultationFee = fee;

@@ -5,10 +5,8 @@
  */
 package controllers;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXUIFactory;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,16 +58,22 @@ public class PatientController extends HttpServlet {
         switch (action) {
             case "show_patients":
                 showAllPatients(request, response);
+                break;
             case "add_patient":
                 addPatient(request, response);
+                break;
             case "remove_patient":
                 removePatient(request, response);
+                break;
             case "invoice_patient":
                 createInvoice(request, response);
+                break;
             case "add_medicine":
                 addMedicine(request, response);
+                break;
             case "pay_invoice":
                 payBill(request, response);
+                break;
             default:
                 showAllPatients(request, response);
         }
@@ -195,7 +199,7 @@ public class PatientController extends HttpServlet {
             throws ServletException, IOException {
         Connection con = (Connection) getServletContext().getAttribute("connection");
         DatabaseHandler dbh = new DatabaseHandler(con);
-        int id = Integer.parseInt(request.getParameter("patient_id"));
+        int id = Integer.parseInt(request.getParameter("id"));
         String[] medicineIds = request.getParameterValues("medicine_ids");
 
         try {
@@ -203,7 +207,6 @@ public class PatientController extends HttpServlet {
         } catch (SQLException e) {
             createErrorBean(request, e.getMessage());
         }
-
         // forward to the invoice page, which should have the new medicines.
         createInvoice(request, response);
     }

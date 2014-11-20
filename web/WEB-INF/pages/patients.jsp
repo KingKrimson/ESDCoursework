@@ -48,6 +48,7 @@
                             <form name="remove_patient" action="PatientController" method="POST">
                                 <input type="hidden" name="desired_action" value="remove_patient" />
                                 <input type="hidden" name="id" value="${patient.id}" />
+                                <input type="hidden" name="name" value="${patient.name}" />
                                 <input type="submit" value="Remove Patient" name="submit_remove" />
                             </form>
                         </td>
