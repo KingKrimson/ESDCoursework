@@ -5,65 +5,47 @@
         <param-value id="datasource">jdbc:mysql://localhost:3306/esd</param-value>
     </context-param>
     <filter>
-        <filter-name>LoggedInFilter</filter-name>
-        <filter-class>filters.LoggedInFilter</filter-class>
+        <filter-name>SpecFilter</filter-name>
+        <filter-class>filters.IPAndHardwareFilter</filter-class>
     </filter>
     <filter-mapping>
-        <!-- run loggedInFilter before any of the servlets. -->
-        <filter-name>LoggedInFilter</filter-name>
-        <servlet-name>PatientController</servlet-name>
-        <servlet-name>MedicineController</servlet-name>
-        <servlet-name>HomeController</servlet-name>
-        <servlet-name>WebServiceController</servlet-name>
+        <filter-name>SpecFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>listeners.DatabaseListener</listener-class>
+        <listener-class>listeners.ContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>PatientController</servlet-name>
-        <servlet-class>controllers.PatientController</servlet-class>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>controllers.FrontController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MedicineController</servlet-name>
-        <servlet-class>controllers.MedicineController</servlet-class>
+        <servlet-name>check</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>LoginController</servlet-name>
-        <servlet-class>controllers.LoginController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>HomeController</servlet-name>
-        <servlet-class>controllers.HomeController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>WebServicesController</servlet-name>
-        <servlet-class>controllers.WebServicesController</servlet-class>
+        <servlet-name>SpellCheckServlet</servlet-name>
+        <servlet-class>controllers.SpellCheckServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>PatientController</servlet-name>
-        <url-pattern>/PatientController</url-pattern>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>/Front</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>MedicineController</servlet-name>
-        <url-pattern>/MedicineController</url-pattern>
+        <servlet-name>check</servlet-name>
+        <url-pattern>/check</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoginController</servlet-name>
-        <url-pattern>/LoginController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HomeController</servlet-name>
-        <url-pattern>/HomeController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>WebServicesController</servlet-name>
-        <url-pattern>/WebServicesController</url-pattern>
+        <servlet-name>SpellCheckServlet</servlet-name>
+        <url-pattern>/SpellCheckServlet</url-pattern>
     </servlet-mapping>
     <session-config>
-        <!-- Session timeout is set for 20 minutes. Plenty of time to browse. -->
-        <session-timeout>
-            20
-        </session-timeout>
+        <session-timeout>20</session-timeout>
     </session-config>
 </web-app>

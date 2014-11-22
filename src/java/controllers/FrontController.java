@@ -6,7 +6,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,19 +29,55 @@ public class FrontController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FrontController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FrontController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String id; // process Request URL
+        String page = "/WEB-INF/pages/main.jsp"; // what page to forward to ...
+        String include; // page to include into main.jsp
+        String action; // action to take in page.
+        
+        // Check that user is logged in.
+
+
+        // find last part of requested resource
+        id = request.getRequestURI().substring(
+                request.getContextPath().length());
+
+        getServletContext().log("Front received a request for " + id);
+        // pageMappings and actionMappings are both created in the context listener.
+        // they contain, respectively, the page to include, and the action to take.
+        Map<String, String> pageMappings = (Map<String, String>) getServletContext()
+                .getAttribute("page_mappings");
+        Map<String, String> actionMappings = (Map<String, String>) getServletContext()
+                .getAttribute("action_mappings");
+
+        
+        if (pageMappings.containsKey(id)) {
+            include = pageMappings.get(id);
+        } else {
+            include = "/WEB-INF/pages/error.jsp";
         }
+        if (actionMappings.containsKey(id)) {
+            action = actionMappings.get(id);
+        } else {
+            action = "default_action";
+        }
+        
+        if (id.equals("/pages/Login")) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            if ("doctor".equals(username) && "doctor".equals(password)) {
+                request.getSession().setAttribute("validUser", true);
+            } else {
+                request.setAttribute("loginFailed", true);
+                include = "/WEB-INF/pages/login.jsp";
+            }
+        } else if (request.getSession().getAttribute("validUser") == null){
+            include = "/WEB-INF/pages/login.jsp";
+        }
+
+        request.setAttribute("included", include);
+        request.setAttribute("desired_action", action);
+        request.getRequestDispatcher(page).forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

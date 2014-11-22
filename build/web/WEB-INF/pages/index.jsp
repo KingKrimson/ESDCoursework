@@ -7,30 +7,10 @@
     rest of the site; there's not much else here otherwise. 
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/fatal_style.css">
-        <title>Fatal System - Home</title>
-    </head>
-    <body>
-        <%@include file="/WEB-INF/jspf/header.jspf"%>
-        <div class="clear"></div>
-        <div id="pagecontent">
-            <%@include file="/WEB-INF/jspf/show_error_bean.jspf"%>
-            <h1>Fatal System Home</h1>
-            <p>Welcome Doctor Fatal.</p>
-            <p>
-                To get started, click on either the patient or medicine links 
-                above. You will be able to view patients and medicines, and
-                perform and required actions.
-            </p>
-        </div>    
-        <div class="clear"></div>
-        <%@ include file="/WEB-INF/jspf/footer.jspf"%>
-    </body>
-
-
-</html>
+<h1>Fatal System Home</h1>
+<p>Welcome Doctor Fatal.</p>
+<p>
+    To get started, click on either the patient or medicine links 
+    above. You will be able to view patients and medicines, and
+    perform and required actions.
+</p>

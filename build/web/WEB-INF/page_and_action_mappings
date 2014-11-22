@@ -1,0 +1,15 @@
+// format: [request uri] [actual page] [action]
+/pages/Front                /WEB-INF/pages/index.jsp            default_action
+/pages/Home                 /WEB-INF/pages/index.jsp            default_action
+/pages/Login                /WEB-INF/pages/index.jsp            default_action
+/pages/WebServices          /WEB-INF/pages/web_services.jsp     default_action
+/pages/FilterResults        /WEB-INF/pages/filter_results.jsp   default_action
+/pages/ShowPatients         /WEB-INF/pages/patients.jsp         show_patients
+/pages/AddPatient           /WEB-INF/pages/patients.jsp         add_patient
+/pages/RemovePatient        /WEB-INF/pages/patients.jsp         remove_patient
+/pages/ShowInvoice          /WEB-INF/pages/invoice.jsp          show_invoice
+/pages/AddPatientMedicine   /WEB-INF/pages/invoice.jsp          add_patient_medicine
+/pages/PayInvoice           /WEB-INF/pages/invoice.jsp          pay_invoice
+/pages/ShowMedicines        /WEB-INF/pages/medicines.jsp        show_medicines
+/pages/AddMedicine          /WEB-INF/pages/medicines.jsp        add_medicine
+/pages/ChangeMedicinePrice  /WEB-INF/pages/medicines.jsp        change_medicine_price
