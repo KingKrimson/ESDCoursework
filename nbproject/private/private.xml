@@ -3,32 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/controllers/HomeController.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/jspf/header.jspf</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/images/skull.png</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/jspf/footer.jspf</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/models/ErrorBean.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/pages/login.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/pages/index.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/pages/patients.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/models/Sale.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/pages/medicines.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/css/fatal_style.css</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/images/logo.png</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/models/DatabaseHandler.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/controllers/PatientController.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/database/esd_database.sql</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/index.html</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/jspf/login_validation.jspf</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/pages/invoice.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/web/WEB-INF/images/alt_logo.png</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/DatabaseListener.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/models/Patient.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/controllers/MedicineController.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/models/Medicine.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCoursework/src/java/controllers/LoginController.java</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/controllers/FrontController.java</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/invoice.jsp</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/page_and_action_mappings</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/main.jsp</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/login.jsp</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/controllers/SpellCheckServlet.java</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/web_services.jsp</file>
+            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/com/cdyne/ws/SpellCheckService.java</file>
         </group>
     </open-files>
 </project-private>
