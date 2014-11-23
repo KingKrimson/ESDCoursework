@@ -13,3 +13,4 @@
 /pages/ShowMedicines        /WEB-INF/pages/medicines.jsp        show_medicines
 /pages/AddMedicine          /WEB-INF/pages/medicines.jsp        add_medicine
 /pages/ChangeMedicinePrice  /WEB-INF/pages/medicines.jsp        change_medicine_price
+/pages/CheckSpelling        /WEB-INF/pages/web_services.jsp     check_spelling

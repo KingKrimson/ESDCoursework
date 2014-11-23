@@ -25,7 +25,10 @@
     Connection conn = (Connection) getServletContext().getAttribute("connection");
     DatabaseHandler dbh = new DatabaseHandler(conn);
     String desiredAction = (String) request.getAttribute("desired_action");
+    // pChange tracks whether the patient list has been updated.
+    // if so, the cached version is invalid, and has to be changed.
     boolean pChange = false;
+    // add or remove a patient.
     if (desiredAction.equals("add_patient")) {
         PatientHandler.addPatient(dbh,
                 request.getParameter("name"),
@@ -37,16 +40,17 @@
                 Integer.parseInt(request.getParameter("id")),
                 request.getParameter("name"));
         if (!removed) {
+            // create an error meddage to display to the user. 
             pageContext.setAttribute("notRemoved",
-                    request.getParameter("name") + " was not removed. They still need to pay their bill!",
-                    PageContext.REQUEST_SCOPE);
+                    request.getParameter("name") + " was not removed. They still need to pay their bill!");
         } else {
             pChange = true;
         }
     }
 
+    // grab a cached version of the patient or medicine list, or get a new ones and cache those.
     List<Patient> patients = PatientHandler.retrieveAllPatients(dbh, request.getSession(), pChange);
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), false);
-    pageContext.setAttribute("patients", patients, PageContext.REQUEST_SCOPE);
-    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
+    pageContext.setAttribute("patients", patients);
+    pageContext.setAttribute("medicines", medicines);
 %>

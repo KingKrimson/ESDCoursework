@@ -9,6 +9,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<!-- Include the scriptlet that calls the model -->
 <jsp:include page="/WEB-INF/scriptlets/patient_actions.jsp" flush="true" />
 <h1>Dr Fatal's Patients</h1>
 <c:if test="${not empty notRemoved}">
@@ -21,6 +22,7 @@
         <th>Delete Patient</th> 
     </tr>
 
+    <!-- Show each patient, along with mechanisms for creating an invoice for them, and deleting them -->
     <c:forEach items="${patients}" var="patient">
         <tr>
             <td>${patient.id}</td>
@@ -41,6 +43,7 @@
         </tr>
     </c:forEach>
 </table>
+<!-- Form to add a new patient, along with a consultation fee and a list of medicines. -->
 <h2>Add Patient</h2>
 <form name="add_patient" action="${context}/pages/AddPatient" method="POST">
     Name: <input type="text" name="name" value="Hugh Mann"></br>

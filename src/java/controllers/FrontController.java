@@ -21,6 +21,14 @@ public class FrontController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
+     * 
+     * Essentially, this is just a router. There's a file in WEB-INF, page and
+     * action mappings, that describes the actions in the links around the site,
+     * and links them to a page to include in the template system, and an action
+     * to take.
+     * 
+     * This controller retrieves the page and the action, and forwards them on
+     * to the main.jsp page.
      *
      * @param request servlet request
      * @param response servlet response
@@ -34,9 +42,6 @@ public class FrontController extends HttpServlet {
         String include; // page to include into main.jsp
         String action; // action to take in page.
         
-        // Check that user is logged in.
-
-
         // find last part of requested resource
         id = request.getRequestURI().substring(
                 request.getContextPath().length());
@@ -49,31 +54,40 @@ public class FrontController extends HttpServlet {
         Map<String, String> actionMappings = (Map<String, String>) getServletContext()
                 .getAttribute("action_mappings");
 
-        
+        // grab the canonical page to include in the template.
         if (pageMappings.containsKey(id)) {
             include = pageMappings.get(id);
         } else {
+            // This page is just a simple error page to include if the link is wrong.
             include = "/WEB-INF/pages/error.jsp";
         }
+        // grab the action to take in the template
         if (actionMappings.containsKey(id)) {
             action = actionMappings.get(id);
         } else {
+            // the action default_action tends not to do anything.
             action = "default_action";
         }
         
+        // Handle login attempts, if the user is on the login page.
         if (id.equals("/pages/Login")) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             if ("doctor".equals(username) && "doctor".equals(password)) {
+                // login successful, so create a session, and set the validUser attribute.
                 request.getSession().setAttribute("validUser", true);
             } else {
+                // login failed, send the user back.
                 request.setAttribute("loginFailed", true);
                 include = "/WEB-INF/pages/login.jsp";
             }
         } else if (request.getSession().getAttribute("validUser") == null){
+            // user is not logged in.
             include = "/WEB-INF/pages/login.jsp";
         }
 
+        // forward to the main page, and specify the page to include, and the
+        // desired action to take on that page.
         request.setAttribute("included", include);
         request.setAttribute("desired_action", action);
         request.getRequestDispatcher(page).forward(request, response);

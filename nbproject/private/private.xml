@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/controllers/FrontController.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/invoice.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/page_and_action_mappings</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/main.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/login.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/controllers/SpellCheckServlet.java</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/web/WEB-INF/pages/web_services.jsp</file>
-            <file>file:/C:/Users/Andrew/Documents/Computer%20Science/University/Year%203/Enterprise%20Systems%20Development/ESDCourseworkFrontController/src/java/com/cdyne/ws/SpellCheckService.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

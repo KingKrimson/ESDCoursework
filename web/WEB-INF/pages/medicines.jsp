@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <jsp:include page="/WEB-INF/scriptlets/medicine_actions.jsp" flush="true" />
+<!-- Include the scriptlet that calls the model -->
 <h1>Dr Fatal's Approved Medicines</h1>
 <table>
     <tr><th>Id</th>
@@ -17,7 +18,8 @@
         <th>Price</th>
         <th>Change Price</th> 
     </tr>
-
+    
+    <!-- Display each medicine, along with a mechanism for changing their price. -->
     <c:forEach items="${medicines}" var="medicine">
         <tr>
             <td>${medicine.id}</td>
@@ -33,6 +35,7 @@
         </tr>
     </c:forEach>
     </table>
+    <!-- The form that allows the user to add a new medicine. -->
     <h2>Add Medicine</h2>
     <form name="add_medicine" action="${context}/pages/AddMedicine" method="POST">
         Name: <input type="text" name="name" value="medicine" />

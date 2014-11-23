@@ -31,6 +31,7 @@ public final class HTMLFilter {
      * in the request URL that is often reported in error messages.
      *
      * @param message The message string to be filtered
+     * @return 
      */
     public static String filter(String message) {
 

@@ -26,16 +26,19 @@
     Connection conn = (Connection)getServletContext().getAttribute("connection");
     DatabaseHandler dbh = new DatabaseHandler(conn);  
     String desiredAction = (String)request.getAttribute("desired_action");
+    // Take an action if required. Either add a medicine, or pay the bill.
     if (desiredAction.equals("add_patient_medicine")) {
-         PatientHandler.addMedicines(dbh, 
-                        Integer.parseInt(request.getParameter("id")), 
-                        request.getParameterValues("medicine_ids"));
+        PatientHandler.addMedicines(dbh, 
+                       Integer.parseInt(request.getParameter("id")), 
+                       request.getParameterValues("medicine_ids"));
     } else if (desiredAction.equals("pay_invoice")) {
        PatientHandler.payBill(dbh, Integer.parseInt(request.getParameter("id")));
     }
+    // For the invoice, we always need a patient, so grab the patient info.
     Patient p = PatientHandler.retrievePatient(dbh, 
             Integer.parseInt(request.getParameter("id")));
+    // Grab either a new medicine list, or a cached copy if one exists.
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), false);
-    pageContext.setAttribute("patient", p, PageContext.REQUEST_SCOPE);
-    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
+    pageContext.setAttribute("patient", p);
+    pageContext.setAttribute("medicines", medicines);
 %>

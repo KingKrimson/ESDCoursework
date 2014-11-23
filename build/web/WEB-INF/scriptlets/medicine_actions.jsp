@@ -23,7 +23,10 @@
     Connection conn = (Connection) getServletContext().getAttribute("connection");
     DatabaseHandler dbh = new DatabaseHandler(conn);
     String desiredAction = (String) request.getAttribute("desired_action");
+    // mChange tracks whether the medicine list has been updated.
+    // if so, the cached version is invalid, and has to be changed.
     boolean mChange = false;
+    // add a medicine, or change a medicine price.
     if (desiredAction.equals("add_medicine")) {
         MedicineHandler.addMedicine(dbh, request.getParameter("name"), Integer.parseInt(request.getParameter("cost")));
         mChange = true;
@@ -31,6 +34,7 @@
         MedicineHandler.changeMedicinePrice(dbh, Integer.parseInt(request.getParameter("id")), Integer.parseInt(request.getParameter("newCost")));
         mChange = true;
     }
+    // grab a cached version of the medicine list, or get a new one and cache that one.
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), mChange);
-    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
+    pageContext.setAttribute("medicines", medicines);
 %>

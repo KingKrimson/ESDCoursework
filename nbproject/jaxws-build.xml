@@ -26,24 +26,21 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-service-SpellCheckService" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/service/SpellCheckService"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/SpellCheckService" destdir="${build.generated.dir}/jax-wsCache/service/SpellCheckService" wsdl="${basedir}/${conf-dir}xml-resources/web-services/SpellCheckService/wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl" catalog="catalog.xml" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-services/SpellCheckService/wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/service/SpellCheckService"/>
+    <target name="wsimport-client-check" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/check"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/check" destdir="${build.generated.dir}/jax-wsCache/check" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/check/wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://wsf.cdyne.com/SpellChecker/check.asmx?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/check/wsdl/wsf.cdyne.com/SpellChecker/check.asmx.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/check"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/service/SpellCheckService">
+            <fileset dir="${build.generated.dir}/jax-wsCache/check">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
-        <copy todir="${build.web.dir}/WEB-INF/wsdl/SpellCheckService">
-            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/SpellCheckService/wsdl/"/>
-        </copy>
     </target>
-    <target name="wsimport-service-clean-SpellCheckService" depends="-init-project">
+    <target name="wsimport-client-clean-check" depends="-init-project">
         <delete dir="${build.generated.sources.dir}/jax-ws/com/cdyne/ws"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/service/SpellCheckService"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/check"/>
     </target>
-    <target name="wsimport-service-generate" depends="wsimport-service-SpellCheckService"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-check"/>
 </project>

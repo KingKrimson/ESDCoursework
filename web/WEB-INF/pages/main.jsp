@@ -4,7 +4,9 @@
     Author     : Andrew
     Description:
     Main page, containing the basic structure of the site. Other pages are
-    included in here.
+    included in here. You could consider this the template where the other
+    pages are slotted in. If we didn't have this, a bunch of html would be
+    duplicated across multiple pages. Ick.
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

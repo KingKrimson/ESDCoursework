@@ -16,34 +16,14 @@
         <description>ServletContextListener</description>
         <listener-class>listeners.ContextListener</listener-class>
     </listener>
-    <listener>
-        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-    </listener>
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controllers.FrontController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>check</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>SpellCheckServlet</servlet-name>
-        <servlet-class>controllers.SpellCheckServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/Front</url-pattern>
         <url-pattern>/pages/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>check</servlet-name>
-        <url-pattern>/check</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SpellCheckServlet</servlet-name>
-        <url-pattern>/SpellCheckServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>20</session-timeout>

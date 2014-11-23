@@ -25,8 +25,9 @@ import models.DatabaseHandler;
 import models.HTMLFilter;
 
 /**
- * Retrieves a bunch of info about the user. Namely, their ip address, browser,
- * and the page they want to see. Also logs the date.
+ * Stores and tetrieves a bunch of info about the user. Namely, their ip address, browser,
+ * and the page they want to see. Also logs the date. This data is used in
+ * a page on the site.
  *
  * @author Andrew
  */
@@ -62,6 +63,7 @@ public class IPAndHardwareFilter implements Filter {
         Logger.getLogger(ClientInfoHandler.class.getName()).log(Level.INFO, 
                 "Request from {0} requesting {1} received at {2}. Browser info: {3}", new Object[]{ip, page, date, browser});
         
+        // call the model to save the client info. See that file for more!
         ClientInfoHandler.addClientInfos(dbh, ip, date, browser, page);
     }
 

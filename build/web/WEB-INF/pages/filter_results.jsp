@@ -2,6 +2,9 @@
     Document   : filter_results
     Created on : Nov 20, 2014, 10:26:44 PM
     Author     : Andrew
+    Description:
+    Simply calls the client info handler to get a list of client infos, and 
+    displays the results.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="models.ClientInfoHandler"%>
