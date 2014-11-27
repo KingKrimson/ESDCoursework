@@ -50,6 +50,7 @@
     Consultation Fee: <input type="number" name="fee" min="0" value="0" /></br>
     <c:forEach items="${medicines}" var="medicine">
         <input type="checkbox" name="medicine_ids" value="${medicine.id}" />
+        <input type="number" name="medicine_quantity" value="0" min="0" />
         ${medicine.name} (£${medicine.cost})<br/>
     </c:forEach>
     <input type="hidden" name="desired_action" value="add_patient" />        

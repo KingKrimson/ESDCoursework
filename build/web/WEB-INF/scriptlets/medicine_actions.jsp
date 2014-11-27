@@ -20,8 +20,7 @@
 <%@page import="models.DatabaseHandler"%>
 <%@page import="java.util.List"%>
 <%
-    Connection conn = (Connection) getServletContext().getAttribute("connection");
-    DatabaseHandler dbh = new DatabaseHandler(conn);
+    DatabaseHandler dbh = (DatabaseHandler)getServletContext().getAttribute("dbh");
     String desiredAction = (String) request.getAttribute("desired_action");
     // mChange tracks whether the medicine list has been updated.
     // if so, the cached version is invalid, and has to be changed.
@@ -36,5 +35,5 @@
     }
     // grab a cached version of the medicine list, or get a new one and cache that one.
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), mChange);
-    pageContext.setAttribute("medicines", medicines);
+    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
 %>

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import models.DatabaseHandler;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,8 +42,11 @@ public class ContextListener implements ServletContextListener {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(datasource, "root", "");
-            // store the connection in the servelet context.
-            sce.getServletContext().setAttribute("connection", conn);
+            // store the connection in the servlet context.
+            //sce.getServletContext().setAttribute("connection", conn);
+            DatabaseHandler dbh = new DatabaseHandler(conn);
+            // store the database handle in the context.
+            sce.getServletContext().setAttribute("dbh", dbh);
             
             // read this file, and place the information into two maps.
             String mappingFile = "/WEB-INF/page_and_action_mappings";

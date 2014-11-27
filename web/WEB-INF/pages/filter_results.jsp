@@ -14,8 +14,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%
-    Connection conn = (Connection)getServletContext().getAttribute("connection");
-    DatabaseHandler dbh = new DatabaseHandler(conn);  
+    DatabaseHandler dbh = (DatabaseHandler)getServletContext().getAttribute("dbh");  
     List<ClientInfo> clientInfos = ClientInfoHandler.retrieveClientInfos(dbh);
     pageContext.setAttribute("client_infos", clientInfos);
 %>

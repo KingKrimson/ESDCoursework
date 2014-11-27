@@ -5,10 +5,10 @@
  */
 package models;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,9 +31,13 @@ public class ClientInfoHandler {
     public static List<ClientInfo> retrieveClientInfos(DatabaseHandler dbh) {
         List<ClientInfo> clientInfos = new ArrayList<>();
         try {
-            ResultSet res = dbh.executeSelect("SELECT * FROM client_info");
-            while(res.next()) {
-                ClientInfo c = new ClientInfo(res.getInt("id"), res.getString("ip"), res.getString("date"), res.getString("page"), res.getString("browser"));
+            List<Map<String, String>> clientResults = dbh.executeSelect("SELECT * FROM client_info");
+            for (Map<String, String> clientResult : clientResults) {
+                ClientInfo c = new ClientInfo(Integer.parseInt(clientResult.get("id")), 
+                        clientResult.get("ip"), 
+                        clientResult.get("date"), 
+                        clientResult.get("page"), 
+                        clientResult.get("browser"));
                 clientInfos.add(c);
             }
         } catch (SQLException ex) {

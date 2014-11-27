@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -39,11 +40,11 @@ public class PatientHandler {
     public static List<Patient> retrieveAllPatients(DatabaseHandler dbh)
             throws SQLException {
         ArrayList<Patient> patients = new ArrayList<>();
-        ResultSet res = dbh.executeSelect("SELECT * FROM patients");
+        List<Map<String, String>> results = dbh.executeSelect("SELECT * FROM patients");
 
-        while (res.next()) {
-            int id = res.getInt("id");
-            String name = res.getString("name");
+        for (Map<String, String> result : results) {
+            int id = Integer.parseInt(result.get("id"));
+            String name = result.get("name");
             Patient p = new Patient(id, name);
             patients.add(p);
         }
@@ -68,15 +69,7 @@ public class PatientHandler {
         List<Patient> patients = (List<Patient>) session.getAttribute("cache_patients");
 
         if (patients == null || updated) {
-            patients = new ArrayList<>();
-            ResultSet res = dbh.executeSelect("SELECT * FROM patients");
-
-            while (res.next()) {
-                int id = res.getInt("id");
-                String name = res.getString("name");
-                Patient p = new Patient(id, name);
-                patients.add(p);
-            }
+            patients = retrieveAllPatients(dbh);
             session.setAttribute("cache_patients", patients);
         }
         return patients;
@@ -98,19 +91,25 @@ public class PatientHandler {
         Patient p = new Patient();
         String qId = quotify(id.toString());
 
-        ResultSet patientRes = dbh.executeSelect("SELECT * from patients WHERE id=" + qId);
+        List<Map<String, String>> patientResults = dbh.executeSelect("SELECT * from patients WHERE id=" + qId);
 
-        // Since there will only ever be one patient with a given id, 
-        // this will only execute once.
-        while (patientRes.next()) {
-            p = new Patient(patientRes.getInt("id"), patientRes.getString("name"));
+        // This should always fire, since the id passed to it has to be one in
+        // the database. Better safe than sorry, though.
+        if (!patientResults.isEmpty()) {
+            // Since there will only ever be one patient with a given id, grab
+            // the first and only result.
+            Map<String, String> patientResult = patientResults.get(0);
+
+            // Grab the id and name from the result...
+            p.setId(Integer.parseInt(patientResult.get("id")));
+            p.setName(patientResult.get("name"));
+            
+            // Grab the rest of the patients values, using the patient's objects
+            // retrival methods.
+            p.retrieveMedicines(dbh);
+            p.retrieveConsultationFee(dbh);
+            p.calculateTotalFee();
         }
-
-        // grab the rest of the patients values, using the patient's objects
-        // retrival methods.
-        p.retrieveMedicines(dbh);
-        p.retrieveConsultationFee(dbh);
-        p.calculateTotalFee();
 
         return p;
     }

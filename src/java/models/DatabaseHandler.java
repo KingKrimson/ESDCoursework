@@ -8,9 +8,13 @@ package models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DatabaseHandler deals with the database. It can do Selects, Updates, Inserts,
@@ -134,12 +138,29 @@ public class DatabaseHandler {
      * @return
      * @throws SQLException
      */
-    public ResultSet executeSelect(String query) 
+    public List<Map<String, String>> executeSelect(String query) 
         throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute(query);
         ResultSet res = stmt.getResultSet();
-        return res;
+        
+        ResultSetMetaData resData = res.getMetaData();
+        int columnCount = resData.getColumnCount();
+        List<String> names = new ArrayList<>();
+        
+        for (int i = 0; i < columnCount; i++) {
+            names.add(resData.getColumnName(i));
+        }
+        
+        List<Map<String, String>> valueMaps = new ArrayList<>();
+        while (res.next()) {
+            Map<String, String> valueMap = new HashMap<>();
+            for (String name : names) {
+                valueMap.put(name, res.getString(name));
+            }
+            valueMaps.add(valueMap);
+        }
+        return valueMaps;
     }
     
     /**

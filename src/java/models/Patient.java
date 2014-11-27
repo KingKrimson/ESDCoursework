@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A patient is a patient on Dr. Fatal's customer list. They're stored in the
@@ -171,13 +172,13 @@ public class Patient {
                 + "FROM medicine JOIN patient_medicines ON medicine.id = patient_medicines.medicine_id "
                 + "JOIN patients ON patient_medicines.patient_id = patients.id "
                 + "WHERE patients.id=" + qId;
-        ResultSet medicineRes = dbh.executeSelect(query);
+         List<Map<String, String>> medicineResults = dbh.executeSelect(query);
 
         medicines.clear();
-        while (medicineRes.next()) {
-            int mId = medicineRes.getInt("id");
-            int cost = medicineRes.getInt("cost");
-            String mName = medicineRes.getString("name");
+        for (Map<String, String> medicineResult : medicineResults) {
+            int mId = Integer.parseInt(medicineResult.get("id"));
+            int cost = Integer.parseInt(medicineResult.get("cost"));
+            String mName = medicineResult.get("name");
 
             Medicine m = new Medicine(mId, mName, cost);
             medicines.add(m);
@@ -200,13 +201,11 @@ public class Patient {
                 + "FROM patient_consultations "
                 + "JOIN patients ON patient_consultations.patient_id = patients.id "
                 + "WHERE patients.id=" + qId;
-        ResultSet consultationRes = dbh.executeSelect(query);
+        List<Map<String, String>> consultationResults = dbh.executeSelect(query);
 
-        // This is a while, but the patient will only have one consultation fee. 
-        // This will only execute once or not at all.
-        while (consultationRes.next()) {
-            int fee = consultationRes.getInt("cost");
-            this.consultationFee = fee;
+        // One consultation fee per patient, so grab that one.
+        if (!consultationResults.isEmpty()) {
+            consultationFee = Integer.parseInt(consultationResults.get(0).get("cost"));
         }
 
         return consultationFee;

@@ -22,8 +22,7 @@
 <%@page import="models.DatabaseHandler"%>
 <%@page import="java.sql.Connection"%>
 <%
-    Connection conn = (Connection) getServletContext().getAttribute("connection");
-    DatabaseHandler dbh = new DatabaseHandler(conn);
+    DatabaseHandler dbh = (DatabaseHandler)getServletContext().getAttribute("dbh");
     String desiredAction = (String) request.getAttribute("desired_action");
     // pChange tracks whether the patient list has been updated.
     // if so, the cached version is invalid, and has to be changed.
@@ -51,6 +50,6 @@
     // grab a cached version of the patient or medicine list, or get a new ones and cache those.
     List<Patient> patients = PatientHandler.retrieveAllPatients(dbh, request.getSession(), pChange);
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), false);
-    pageContext.setAttribute("patients", patients);
-    pageContext.setAttribute("medicines", medicines);
+    pageContext.setAttribute("patients", patients, PageContext.REQUEST_SCOPE);
+    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
 %>

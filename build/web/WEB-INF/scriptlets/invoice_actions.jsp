@@ -23,8 +23,7 @@
 <%@page import="models.DatabaseHandler"%>
 <%@page import="java.sql.Connection"%>
 <%
-    Connection conn = (Connection)getServletContext().getAttribute("connection");
-    DatabaseHandler dbh = new DatabaseHandler(conn);  
+    DatabaseHandler dbh = (DatabaseHandler)getServletContext().getAttribute("dbh");  
     String desiredAction = (String)request.getAttribute("desired_action");
     // Take an action if required. Either add a medicine, or pay the bill.
     if (desiredAction.equals("add_patient_medicine")) {
@@ -39,6 +38,6 @@
             Integer.parseInt(request.getParameter("id")));
     // Grab either a new medicine list, or a cached copy if one exists.
     List<Medicine> medicines = MedicineHandler.retrieveAllMedicines(dbh, request.getSession(), false);
-    pageContext.setAttribute("patient", p);
-    pageContext.setAttribute("medicines", medicines);
+    pageContext.setAttribute("patient", p, PageContext.REQUEST_SCOPE);
+    pageContext.setAttribute("medicines", medicines, PageContext.REQUEST_SCOPE);
 %>

@@ -5,10 +5,10 @@
  */
 package models;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -36,12 +36,12 @@ public class MedicineHandler {
             throws SQLException {
         List<Medicine> medicines = new ArrayList<>();
 
-        ResultSet res = dbh.executeSelect("SELECT * FROM medicine");
+        List<Map<String, String>> medicineResults = dbh.executeSelect("SELECT * FROM medicine");
 
-        while (res.next()) {
-            int id = res.getInt("id");
-            String name = res.getString("name");
-            int cost = res.getInt("cost");
+        for (Map<String, String> medicineResult : medicineResults) {
+            int id = Integer.parseInt(medicineResult.get("id"));
+            String name = medicineResult.get("name");
+            int cost = Integer.parseInt(medicineResult.get("cost"));
 
             Medicine m = new Medicine(id, name, cost);
             medicines.add(m);
@@ -67,17 +67,7 @@ public class MedicineHandler {
         List<Medicine> medicines = (List<Medicine>) session.getAttribute("cache_medicines");
 
         if (medicines == null || updated) {
-            medicines = new ArrayList<>();
-            ResultSet res = dbh.executeSelect("SELECT * FROM medicine");
-
-            while (res.next()) {
-                int id = res.getInt("id");
-                String name = res.getString("name");
-                int cost = res.getInt("cost");
-
-                Medicine m = new Medicine(id, name, cost);
-                medicines.add(m);
-            }
+            medicines = retrieveAllMedicines(dbh);
             session.setAttribute("cache_medicines", medicines);
         }
         return medicines;
