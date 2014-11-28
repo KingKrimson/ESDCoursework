@@ -49,8 +49,7 @@ public class IPAndHardwareFilter implements Filter {
             log("IPAndHardwareFilter:DoBeforeProcessing");
         }
         
-        Connection conn = (Connection)request.getServletContext().getAttribute("connection");
-        DatabaseHandler dbh = new DatabaseHandler(conn);  
+        DatabaseHandler dbh = (DatabaseHandler)request.getServletContext().getAttribute("dbh");  
         
         // Cast the request to a Http request, rather than a generic one.
         HttpServletRequest req = (HttpServletRequest) request;

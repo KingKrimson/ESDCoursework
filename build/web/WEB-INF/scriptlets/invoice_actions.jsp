@@ -27,9 +27,16 @@
     String desiredAction = (String)request.getAttribute("desired_action");
     // Take an action if required. Either add a medicine, or pay the bill.
     if (desiredAction.equals("add_patient_medicine")) {
+        String[] medicine_ids = request.getParameterValues("medicine_ids");
+        int[] quantities = new int[medicine_ids.length];
+        for (int i = 0; i < medicine_ids.length; ++i) {
+            String id = medicine_ids[i];
+            quantities[i] = Integer.parseInt(request.getParameter("medicine_quantities_" + id));
+        }
         PatientHandler.addMedicines(dbh, 
                        Integer.parseInt(request.getParameter("id")), 
-                       request.getParameterValues("medicine_ids"));
+                       medicine_ids,
+                       quantities);
     } else if (desiredAction.equals("pay_invoice")) {
        PatientHandler.payBill(dbh, Integer.parseInt(request.getParameter("id")));
     }

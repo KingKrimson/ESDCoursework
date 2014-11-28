@@ -29,9 +29,16 @@
     boolean pChange = false;
     // add or remove a patient.
     if (desiredAction.equals("add_patient")) {
+        String[] medicine_ids = request.getParameterValues("medicine_ids");
+        int[] quantities = new int[medicine_ids.length];
+        for (int i = 0; i < medicine_ids.length; ++i) {
+            String id = medicine_ids[i];
+            quantities[i] = Integer.parseInt(request.getParameter("medicine_quantities_" + id));
+        }
         PatientHandler.addPatient(dbh,
                 request.getParameter("name"),
-                request.getParameterValues("medicine_ids"),
+                medicine_ids,
+                quantities,
                 Integer.parseInt(request.getParameter("fee")));
         pChange = true;
     } else if (desiredAction.equals("remove_patient")) {
@@ -39,9 +46,10 @@
                 Integer.parseInt(request.getParameter("id")),
                 request.getParameter("name"));
         if (!removed) {
-            // create an error meddage to display to the user. 
+            // create an error message to display to the user. 
             pageContext.setAttribute("notRemoved",
-                    request.getParameter("name") + " was not removed. They still need to pay their bill!");
+                    request.getParameter("name") + " was not removed. They still need to pay their bill!",
+                    PageContext.REQUEST_SCOPE);
         } else {
             pChange = true;
         }

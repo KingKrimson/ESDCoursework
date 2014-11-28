@@ -5,7 +5,6 @@
  */
 package models;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +102,7 @@ public class PatientHandler {
             // Grab the id and name from the result...
             p.setId(Integer.parseInt(patientResult.get("id")));
             p.setName(patientResult.get("name"));
-            
+
             // Grab the rest of the patients values, using the patient's objects
             // retrival methods.
             p.retrieveMedicines(dbh);
@@ -122,19 +121,25 @@ public class PatientHandler {
      * @param dbh
      * @param name
      * @param medicineIds
+     * @param quantities
      * @param consultationFee
      * @throws SQLException
      */
-    public static void addPatient(DatabaseHandler dbh, String name, String[] medicineIds, Integer consultationFee)
+    public static void addPatient(DatabaseHandler dbh, String name, String[] medicineIds, int[] quantities, Integer consultationFee)
             throws SQLException {
         String qName = quotify(name);
         Integer patientId = dbh.executeInsert("INSERT INTO patients (name) VALUES (" + qName + ")");
         String qPId = quotify(patientId.toString());
 
-        for (String medicineId : medicineIds) {
+        for (int i = 0; i < medicineIds.length; i++) {
+            String medicineId = medicineIds[i];
+            int quantity = quantities[i];
             String qMId = quotify(medicineId);
-            dbh.executeInsert("INSERT INTO patient_medicines (patient_id, medicine_id) "
-                    + "VALUES (" + qPId + "," + qMId + ")");
+
+            for (int j = 0; j < quantity; ++j) {
+                dbh.executeInsert("INSERT INTO patient_medicines (patient_id, medicine_id) "
+                        + "VALUES (" + qPId + "," + qMId + ")");
+            }
         }
         String qCost = quotify(consultationFee.toString());
         dbh.executeInsert("INSERT INTO patient_consultations (patient_id, cost) "
@@ -179,15 +184,20 @@ public class PatientHandler {
      * @param dbh
      * @param id
      * @param medicineIds
+     * @param quantities
      * @throws SQLException
      */
-    public static void addMedicines(DatabaseHandler dbh, Integer id, String[] medicineIds)
+    public static void addMedicines(DatabaseHandler dbh, Integer id, String[] medicineIds, int[] quantities)
             throws SQLException {
         String qPid = quotify(id.toString());
-        for (String mId : medicineIds) {
+        for (int i = 0; i < medicineIds.length; i++) {
+            String mId = medicineIds[i];
+            int quantity = quantities[i];
             String qMid = quotify(mId);
-            dbh.executeUpdate("INSERT INTO patient_medicines (patient_id, medicine_id) "
-                    + "VALUES (" + qPid + ", " + qMid + ")");
+            for (int j = 0; j < quantity; ++j) {
+                dbh.executeUpdate("INSERT INTO patient_medicines (patient_id, medicine_id) "
+                        + "VALUES (" + qPid + ", " + qMid + ")");
+            }
         }
     }
 

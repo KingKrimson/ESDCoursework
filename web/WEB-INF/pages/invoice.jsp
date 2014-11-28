@@ -35,7 +35,7 @@
 <form name="add_medicine" action="${context}/pages/AddPatientMedicine" method="POST">
     <c:forEach items="${medicines}" var="medicine">
         <input type="checkbox" name="medicine_ids" value="${medicine.id}" />
-        <input type="number" name="medicine_quantities" value="0" min="0" />
+        <input type="number" name="medicine_quantities_${medicine.id}" value="1" min="0" />
         ${medicine.name} (£${medicine.cost})<br/>
     </c:forEach>
     <input type="hidden" name="id" value="${patient.id}" />       

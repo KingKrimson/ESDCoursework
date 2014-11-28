@@ -132,7 +132,8 @@ public class DatabaseHandler {
     /**
      * Perform a select statement. The query parameter is an SQL select command.
      * 
-     * returns a ResultSet that the caller can query for more information.
+     * returns a List of Maps. Each map contains the column name as the key, 
+     * and the column value as the value.
      * 
      * @param query
      * @return
@@ -148,10 +149,12 @@ public class DatabaseHandler {
         int columnCount = resData.getColumnCount();
         List<String> names = new ArrayList<>();
         
-        for (int i = 0; i < columnCount; i++) {
+        // ResultSets are 1 indexed :/.
+        for (int i = 1; i <= columnCount; i++) {
             names.add(resData.getColumnName(i));
         }
         
+        // generate
         List<Map<String, String>> valueMaps = new ArrayList<>();
         while (res.next()) {
             Map<String, String> valueMap = new HashMap<>();
